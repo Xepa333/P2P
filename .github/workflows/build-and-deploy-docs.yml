@@ -1,6 +1,5 @@
-name: Build and Deploy docs/
+name: Build and Deploy docs
 
-# allow manual runs + on every push to main
 on:
   workflow_dispatch:
   push:
@@ -11,25 +10,28 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1) fetch your code
-      - uses: actions/checkout@v3
+      # 1) Check out the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          # allow pushing docs/ back
           persist-credentials: true
 
-      # 2) install Node
-      - name: Setup Node 18
+      # 2) Install Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          cache: 'npm'
 
-      # 3) install deps & build
+      # 3) Install deps
       - name: Install dependencies
-        run: npm ci
-      - name: Build for GitHub Pages
+        run: npm install
+
+      # 4) Build into docs/
+      - name: Build
         run: npm run build
 
-      # 4) commit & push docs/, skipping if no changes
+      # 5) Commit & push docs/
       - name: Commit docs/
         run: |
           git config user.name "github-actions[bot]"
@@ -37,4 +39,3 @@ jobs:
           git add docs
           git commit -m "chore: build docs/ [skip ci]" || echo "No changes to commit"
           git push
-chore: add workflow to auto-build docs/
