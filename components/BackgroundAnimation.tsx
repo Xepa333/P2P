@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 // Memoized Dot to prevent re-renders on parent state change
 const Dot = React.memo(({ style, className }: { style: React.CSSProperties; className: string }) => (
@@ -13,10 +13,8 @@ const BackgroundAnimation = () => {
         { count: 125, size: 2.5, opacityClass: 'bg-white/60', minDuration: 15, maxDuration: 30 }, // Near
     ], []);
 
-    const [dots, setDots] = useState<{ id: string; style: React.CSSProperties; className: string }[]>([]);
-
-    useEffect(() => {
-        const generatedDots = layers.flatMap((layer, layerIndex) =>
+    const dots = useMemo(() => {
+        return layers.flatMap((layer, layerIndex) =>
             Array.from({ length: layer.count }).map((_, i) => {
                 const animationDuration = `${Math.random() * (layer.maxDuration - layer.minDuration) + layer.minDuration}s`;
                 const animationDelay = `-${Math.random() * layer.maxDuration}s`;
@@ -35,12 +33,11 @@ const BackgroundAnimation = () => {
                 };
             })
         );
-        setDots(generatedDots);
     }, [layers]);
 
     return (
         <div
-            className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden"
+            className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden bg-[#0d1124]"
             aria-hidden="true"
         >
              {dots.map((dot) => (
