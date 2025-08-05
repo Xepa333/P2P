@@ -10,19 +10,20 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1) Check out the repo
+      # 1) Check out the repo (full history so branch info is available)
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          fetch-depth: 0        # get all commits, not just a single one
           persist-credentials: true
 
-      # 2) Install Node
+      # 2) Install Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
-      # 3) Install deps
+      # 3) Install dependencies
       - name: Install dependencies
         run: npm install
 
@@ -30,11 +31,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      # 5) Commit & push docs/
-      - name: Commit docs/
+      # 5) Commit & push docs/ if there are changes
+      - name: Commit and push docs/
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs
-          git commit -m "chore: build docs/ [skip ci]" || echo "No changes to commit"
-          git push
+          # Only commit if docs/ has changes
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: build docs/ [skip ci]"
+          fi
+          # Push HEAD back to main
+          git push origin HEAD:main
