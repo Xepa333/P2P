@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { AnimatedSection } from './ui/AnimatedSection';
 
@@ -21,53 +20,45 @@ const BulletList = ({ items }: { items: React.ReactNode[] }) => (
     </ul>
 );
 
-export const WhatIsInside = () => (
-    <AnimatedSection id="what-is-inside">
-        <SectionTitle>What's Inside:</SectionTitle>
-        <div className="max-w-3xl mx-auto bg-gray-800/20 p-8 rounded-lg">
-            <ol className="list-decimal list-inside space-y-6 text-lg text-gray-300">
-                <li>Context:
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>Why P2P and scientific platforms matter in modern pharma marketing</li>
-                        <li>Role in omnichannel HCP engagement: evolution</li>
-                    </ul>
-                </li>
-                <li>Understanding the Platforms
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>Key platform types: P2P, Scientific</li>
-                        <li>Promotional vs. educational vs. scientific use cases</li>
-                    </ul>
-                </li>
-                <li>Strategic Use Cases
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>Pre-launch: building awareness through expert voices</li>
-                        <li>Launch: peer validation and scientific credibility</li>
-                        <li>Mature Brands: real-world evidence, retention, differentiation</li>
-                    </ul>
-                </li>
-                <li>Integration with Brand Strategy
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>Aligning with marketing and medical goals</li>
-                        <li>Coordinating across functions (marketing, medical, compliance)</li>
-                    </ul>
-                </li>
-                <li>KPIs & Measurement
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>HCP reach, engagement, content consumption</li>
-                        <li>Qualitative feedback, impact on perception or intent</li>
-                    </ul>
-                </li>
-                 <li>Do's & Don'ts = Best Practices
-                    <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base">
-                        <li>Ensure content credibility & compliance</li>
-                        <li>Avoid overlap with field force messages</li>
-                        <li>Prioritize value for HCPs</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </AnimatedSection>
-);
+const contentLinks = [
+    { text: "Context", href: "#context", subItems: ["Why P2P and scientific platforms matter in modern pharma marketing", "Role in omnichannel HCP engagement: evolution"] },
+    { text: "Understanding the Platforms", href: "#platforms", subItems: ["Key platform types: P2P, Scientific", "Promotional vs. educational vs. scientific use cases"] },
+    { text: "Strategic Use Cases", href: "#lifecycle", subItems: ["Pre-launch: building awareness through expert voices", "Launch: peer validation and scientific credibility", "Mature Brands: real-world evidence, retention, differentiation"] },
+    { text: "Integration with Brand Strategy", href: "#strategy", subItems: ["Aligning with marketing and medical goals", "Coordinating across functions (marketing, medical, compliance)"] },
+    { text: "KPIs & Measurement", href: "#kpis", subItems: ["HCP reach, engagement, content consumption", "Qualitative feedback, impact on perception or intent"] },
+    { text: "Do's & Don'ts = Best Practices", href: "#dos-donts", subItems: ["Ensure content credibility & compliance", "Avoid overlap with field force messages", "Prioritize value for HCPs"] },
+];
+
+export const WhatIsInside = () => {
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
+    return (
+        <AnimatedSection id="what-is-inside">
+            <SectionTitle>What's Inside:</SectionTitle>
+            <div className="max-w-3xl mx-auto bg-gray-800/20 p-8 rounded-lg">
+                <ol className="list-decimal list-inside space-y-6 text-lg text-gray-300">
+                     {contentLinks.map((link, index) => (
+                        <li key={index}>
+                            <a href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="font-semibold text-indigo-300 hover:text-indigo-200 transition-colors duration-200 cursor-pointer underline decoration-transparent hover:decoration-indigo-200 decoration-1 underline-offset-4">
+                                {link.text}:
+                            </a>
+                            <ul className="list-disc list-inside pl-6 mt-2 space-y-2 text-base text-gray-400">
+                                {link.subItems.map((item, subIndex) => <li key={subIndex}>{item}</li>)}
+                            </ul>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+        </AnimatedSection>
+    );
+};
 
 export const Context = () => (
     <AnimatedSection id="context" className="bg-[#111827]/50 rounded-xl">

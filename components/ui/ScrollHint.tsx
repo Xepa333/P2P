@@ -29,7 +29,7 @@ const ScrollHint = () => {
 
   return (
     <div
-      className={`fixed bottom-24 right-8 z-50 flex flex-col items-center gap-2 text-white transition-opacity duration-1000 ${
+      className={`fixed bottom-24 right-8 z-[60] flex flex-col items-center gap-2 text-white transition-opacity duration-1000 ${
         isVisible ? 'opacity-90' : 'opacity-0 pointer-events-none'
       }`}
       aria-hidden={!isVisible}
