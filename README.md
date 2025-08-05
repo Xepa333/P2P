@@ -1,13 +1,8 @@
 # No idea why it's not working
 But that's my first project :)
 
-## Run Locally
+## Don't Give Up. 
 
 **Prerequisites:**  Node.js
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
