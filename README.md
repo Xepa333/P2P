@@ -1,6 +1,5 @@
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
+# No idea why it's not working
+But that's my first project :)
 
 ## Run Locally
 
